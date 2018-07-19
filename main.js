@@ -66,16 +66,16 @@ class Blockchain{
   getBalanceOfAddress(address){
     let balance = 0;
 
-    for(const block of this.chain){
-      for(const trans of block.transactions){
-        if(trans.fromAddress === address){
-          balance == trans.amount;
-        }
-        if (trans.toAddress === address) {
-          balance == trans.amount;
+      for(const block of this.chain){
+        for(const trans of block.transactions){
+          if(trans.fromAddress === address){
+            balance -= trans.amount;
+          }
+          if (trans.toAddress === address) {
+            balance += trans.amount;
+          }
         }
       }
-    }
     return balance;
   }
 
@@ -100,6 +100,11 @@ class Blockchain{
 let caesar = new Blockchain();
 caesar.createTransaction(new Transaction('address1', 'address2', 100));
 caesar.createTransaction(new Transaction('address2', 'address1', 50));
+
+console.log('\n Starting the miner....');
+caesar.minePendingTransactions('chinis-address');
+
+console.log('\nBalance of Chini is', caesar.getBalanceOfAddress('chinis-address'));
 
 console.log('\n Starting the miner....');
 caesar.minePendingTransactions('chinis-address');
